@@ -258,7 +258,7 @@ Configure allowed/blocked domains:
 }
 ```
 
-## 📊 Monitoring
+## Monitoring
 
 ### Status Endpoint
 
@@ -296,7 +296,7 @@ Monitor the log file for detailed request information:
 tail -f proxy.log
 ```
 
-## 🔗 Proxy Chaining
+## Proxy Chaining
 
 Chain multiple proxies for enhanced anonymity:
 
@@ -311,7 +311,7 @@ Chain multiple proxies for enhanced anonymity:
 
 Your traffic flow: `Your Browser → Custom Proxy → Upstream Proxy → Target Server`
 
-## ⚙️ Advanced Configuration
+## Advanced Configuration
 
 ### SSL/TLS Configuration
 
@@ -354,7 +354,7 @@ Detailed logging setup:
 }
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -392,7 +392,7 @@ Or in configuration:
 }
 ```
 
-## 🔒 Security Considerations
+## Security Considerations
 
 ### Important Security Notes
 
