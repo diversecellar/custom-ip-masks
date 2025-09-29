@@ -1,12 +1,16 @@
-# Custom IP Masks - Proxy Server
+# custom-ip-masks - Flexible Proxy Server for Equitable Internet Access
 
-A powerful, flexible HTTP/HTTPS proxy server built with Flask that allows you to mask your IP address and browse the web anonymously. This proxy server provides advanced features for privacy, security, and traffic management.
+A powerful, flexible, customised HTTP/HTTPS proxy server built with **Python** and **Flask** that allows you to mask your IP address and browse the web anonymously. This proxy server provides advanced features for privacy, security, and traffic management. 
 
-## ⚠️ Important Disclaimer
+The app can only be ran in the terminal, and all installation, configuration and usage information is shown as per below.
 
-**This tool is for educational and legitimate privacy purposes only.** Users are responsible for complying with all applicable laws and regulations. The authors are not responsible for any misuse of this software.
+The app is coded with the philosophy of "spacing, readibility and indpendence" over "compactness and minimilisation".
 
-## 🌟 Features
+## Important Disclaimer
+
+**This tool is for educational and legitimate privacy purposes only.** Users are responsible for complying with all applicable local internet, data security and governance laws and regulations. The authors are not responsible for any misuse of this software and will not be accessible for anything other than bug-fixing and management.
+
+## Features
 
 ### Core Functionality
 - **HTTP/HTTPS Proxy**: Forward requests while masking your real IP address
@@ -26,13 +30,13 @@ A powerful, flexible HTTP/HTTPS proxy server built with Flask that allows you to
 - **Configuration Management**: Flexible configuration via files or environment variables
 - **Health Monitoring**: Built-in status and health check endpoints
 
-## 📋 Requirements
+## Requirements
 
-- Python 3.7 or higher
+- Python 3.9 or higher
 - Flask web framework
-- Additional dependencies (see `requirements.txt`)
+- Additional dependencies (see `requirements.txt`) - VERY IMPORTANT
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Installation
 
@@ -91,11 +95,11 @@ Configure your browser to use the proxy server:
 - **HTTPS Proxy**: `127.0.0.1:8888`
 - **SOCKS Proxy**: Not supported (HTTP/HTTPS only)
 
-### 4. Test the Proxy
+### 5. Test the Proxy
 
 Visit `http://httpbin.org/ip` in your browser to see if your IP is being masked.
 
-## 🔧 Configuration
+## Configuration
 
 ### Configuration File
 
@@ -149,7 +153,7 @@ python proxy_server.py --config config.json
 PROXY_PORT=9000 python proxy_server.py
 ```
 
-## 📖 Usage Examples
+## Usage Examples
 
 ### Complete Workflow
 
@@ -218,7 +222,7 @@ curl "http://127.0.0.1:8888?url=http://example.com"
 curl -H "X-Target-URL: http://example.com" http://127.0.0.1:8888
 ```
 
-## 🛡️ Security Features
+## Security Features
 
 ### Header Sanitization
 
@@ -414,11 +418,11 @@ For production use:
 6. Enable rate limiting
 7. Regular security updates
 
-## 📝 License
+## License
 
 This project is provided for educational purposes. Users are responsible for compliance with all applicable laws and regulations.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 
@@ -427,7 +431,7 @@ Contributions are welcome! Please:
 3. Add tests for new functionality
 4. Submit a pull request
 
-## 📞 Support
+## Support
 
 For issues and questions:
 
@@ -436,7 +440,7 @@ For issues and questions:
 3. Check log files for error details
 4. Create an issue with detailed information
 
-## 🔄 Updates
+## Updates
 
 Keep your proxy server updated:
 
