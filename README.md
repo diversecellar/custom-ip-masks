@@ -44,16 +44,46 @@ cd custom-ip-masks
 pip install -r requirements.txt
 ```
 
-### 2. Basic Usage
+### 2. Start the Proxy
 
 ```bash
-# Start the proxy server with default settings
+# Easy startup with helpful output
+python start_proxy.py
+
+# Or start the main server directly
 python proxy_server.py
 ```
 
 The proxy server will start on `http://127.0.0.1:8888` by default.
 
-### 3. Configure Your Browser
+### 3. Stop the Proxy
+
+When you're done using the proxy, you can stop it using several methods:
+
+```bash
+# Method 1: Keyboard shortcut (easiest)
+# Press Ctrl+C in the terminal where the proxy is running
+
+# Method 2: Simple stop script (no extra dependencies)
+python stop_proxy_simple.py
+
+# Method 3: Advanced stop script (requires psutil)
+python stop_proxy.py
+
+# Method 4: Windows batch file
+stop_proxy.bat
+
+# Method 5: Stop specific port
+python stop_proxy_simple.py --port 8888
+
+# Method 6: Force stop
+python stop_proxy_simple.py --force
+
+# Method 7: Check if proxy is running
+python stop_proxy.py --status
+```
+
+### 4. Configure Your Browser
 
 Configure your browser to use the proxy server:
 
@@ -121,11 +151,46 @@ PROXY_PORT=9000 python proxy_server.py
 
 ## 📖 Usage Examples
 
+### Complete Workflow
+
+```bash
+# 1. Start the proxy server
+python start_proxy.py
+
+# 2. (Configure your browser to use 127.0.0.1:8888)
+
+# 3. Test the proxy
+python test_proxy.py --quick
+
+# 4. When finished, stop the proxy
+python stop_proxy_simple.py
+```
+
 ### Basic Web Browsing
 
-1. Start the proxy server
+1. Start the proxy server: `python start_proxy.py`
 2. Configure your browser to use `127.0.0.1:8888` as HTTP/HTTPS proxy
 3. Browse normally - your IP will be masked
+4. Stop when done: `python stop_proxy_simple.py`
+
+### Advanced Start/Stop Options
+
+```bash
+# Start with custom options
+python start_proxy.py --port 9000 --debug --open-access
+
+# Stop specific port
+python stop_proxy_simple.py --port 9000
+
+# Force stop if needed
+python stop_proxy_simple.py --force
+
+# Check proxy status
+python stop_proxy.py --status
+
+# List all proxy processes
+python stop_proxy.py --list
+```
 
 ### Programmatic Usage
 
