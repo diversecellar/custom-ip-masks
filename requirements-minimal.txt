@@ -1,0 +1,19 @@
+# Minimal requirements for Custom IP Masks Proxy Server
+# ====================================================
+# 
+# This file contains only the essential packages needed to run the proxy server.
+# Install with: pip install -r requirements-minimal.txt
+
+# Core web framework
+Flask>=3.0.0
+Werkzeug>=3.0.0
+
+# HTTP client library for making proxied requests
+requests>=2.31.0
+urllib3>=2.0.0
+
+# Configuration file support (optional but recommended)
+PyYAML>=6.0.0
+
+# Process management for stop script (optional)
+psutil>=5.9.0
