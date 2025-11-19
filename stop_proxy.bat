@@ -4,6 +4,7 @@ REM ========================================================
 
 echo Stopping Custom IP Masks Proxy Server...
 echo.
+pushd "%~dp0src"
 
 REM Try the simple stop script first (no dependencies)
 echo Attempting to stop proxy on default port 8888...
@@ -34,4 +35,5 @@ if %errorlevel% equ 0 (
     echo.
 )
 
+popd
 pause

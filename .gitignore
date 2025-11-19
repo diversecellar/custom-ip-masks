@@ -66,6 +66,7 @@ coverage.xml
 *.temp
 temp/
 tmp/
+.gitignore
 
 # Example configurations (you might want to include these)
 # example_config.json

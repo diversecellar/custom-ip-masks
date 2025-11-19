@@ -1,10 +1,19 @@
-# custom-ip-masks - Flexible Proxy Server for Equitable Internet Access
+# Custom IP Masks - Flexible Proxy Server for Equitable Internet Access
+
+**Last updated**: November 19, 2025<br>
+**Author**: Paul Namalomba<br>
+  - SESKA Computational Engineer<br>
+  - Software Developer<br>
+  - PhD Candidate (Civil Engineering Spec. Computational and Applied Mechanics)<br>
+
+**Version**: v0.1.4 (Nov 2025)<br>
+**Contact**: [kabwenzenamalomba@gmail.com](kabwenzenamalomba@gmail.com)
 
 A powerful, flexible, customised HTTP/HTTPS proxy server built with **Python** and **Flask** that allows you to mask your IP address and browse the web anonymously. This proxy server provides advanced features for privacy, security, and traffic management. 
 
 The app can only be ran in the terminal, and all installation, configuration and usage information is shown as per below.
 
-The app is coded with the philosophy of "spacing, readibility and indpendence" over "compactness and minimilisation".
+The app is coded with the philosophy of "spacing, readability and independence" over "compactness and minimilisation".
 
 ## Important Disclaimer
 
@@ -44,6 +53,16 @@ The app is coded with the philosophy of "spacing, readibility and indpendence" o
 # Clone or download the project
 cd custom-ip-masks
 
+# Create and activate a virtual environment with your prefered name: <venv_name> (Highly recommended)
+python -m venv <venv_name>
+source <venv_name>/bin/activate  # On Windows, use `<venv_name>\Scripts\activate`
+
+# Upgrade global pip (Optional)
+python -m pip install --upgrade pip
+
+# Upgrade setuptools and wheel (Optional)
+pip install --upgrade setuptools wheel
+
 # Install dependencies
 pip install -r requirements.txt
 ```
@@ -52,10 +71,10 @@ pip install -r requirements.txt
 
 ```bash
 # Easy startup with helpful output
-python start_proxy.py
+python src/start_proxy.py
 
 # Or start the main server directly
-python proxy_server.py
+python src/proxy_server.py
 ```
 
 The proxy server will start on `http://127.0.0.1:8888` by default.
@@ -69,22 +88,22 @@ When you're done using the proxy, you can stop it using several methods:
 # Press Ctrl+C in the terminal where the proxy is running
 
 # Method 2: Simple stop script (no extra dependencies)
-python stop_proxy_simple.py
+python src/stop_proxy_simple.py
 
 # Method 3: Advanced stop script (requires psutil)
-python stop_proxy.py
+python src/stop_proxy.py
 
 # Method 4: Windows batch file
 stop_proxy.bat
 
 # Method 5: Stop specific port
-python stop_proxy_simple.py --port 8888
+python src/stop_proxy_simple.py --port 8888
 
 # Method 6: Force stop
-python stop_proxy_simple.py --force
+python src/stop_proxy_simple.py --force
 
 # Method 7: Check if proxy is running
-python stop_proxy.py --status
+python src/stop_proxy.py --status
 ```
 
 ### 4. Configure Your Browser
@@ -97,7 +116,61 @@ Configure your browser to use the proxy server:
 
 ### 5. Test the Proxy
 
-Visit `http://httpbin.org/ip` in your browser to see if your IP is being masked.
+#### How to verify your IP is masked
+
+- Step 1: Check your direct public IP (no proxy)
+  - macOS/Linux:
+    ```bash
+    curl -s https://api.ipify.org?format=json
+    ```
+  - Windows PowerShell:
+    ```powershell
+    curl https://api.ipify.org?format=json
+    ```
+
+- Step 2: Check via this proxy
+  - Any OS:
+    ```bash
+    curl -s --proxy http://127.0.0.1:8888 https://api.ipify.org?format=json
+    ```
+  - Or set environment variables, then run your command:
+    - PowerShell:
+      ```powershell
+      $env:HTTP_PROXY="http://127.0.0.1:8888"
+      $env:HTTPS_PROXY="http://127.0.0.1:8888"
+      curl https://api.ipify.org?format=json
+      ```
+    - CMD:
+      ```cmd
+      set HTTP_PROXY=http://127.0.0.1:8888
+      set HTTPS_PROXY=http://127.0.0.1:8888
+      curl https://api.ipify.org?format=json
+      ```
+    - macOS/Linux:
+      ```bash
+      HTTP_PROXY=http://127.0.0.1:8888 HTTPS_PROXY=http://127.0.0.1:8888 curl -s https://api.ipify.org?format=json
+      ```
+
+- Step 3: Compare results
+  - If the IPs differ, your traffic is masked by the proxy.
+  - If they are the same, your proxy is exiting with the same public IP as your machine. To change the egress IP, either:
+    - Configure an upstream proxy/VPN in config.json (upstream_proxy), or
+    - Run this proxy on a host/network with a different public IP.
+
+- Optional: Verify header sanitization
+  - Expect no X-Forwarded-For or X-Real-IP in proxied requests:
+    ```bash
+    curl -s --proxy http://127.0.0.1:8888 https://httpbin.org/headers
+    ```
+    Check that headers like X-Forwarded-For, X-Real-IP, Via, Forwarded are absent.
+
+- Programmatic check (Python):
+  ```python
+  import requests
+  proxies = {'http': 'http://127.0.0.1:8888','https': 'http://127.0.0.1:8888'}
+  print("Direct:", requests.get('https://api.ipify.org?format=json').json())
+  print("Proxy :", requests.get('https://api.ipify.org?format=json', proxies=proxies).json())
+  ```
 
 ## Configuration
 
@@ -147,10 +220,10 @@ export PROXY_UPSTREAM_HTTP=http://upstream-proxy:3128
 
 ```bash
 # Start with custom configuration
-python proxy_server.py --config config.json
+python src/proxy_server.py --config config.json
 
 # Start with environment variables
-PROXY_PORT=9000 python proxy_server.py
+PROXY_PORT=9000 python src/proxy_server.py
 ```
 
 ## Usage Examples
@@ -159,41 +232,41 @@ PROXY_PORT=9000 python proxy_server.py
 
 ```bash
 # 1. Start the proxy server
-python start_proxy.py
+python src/start_proxy.py
 
 # 2. (Configure your browser to use 127.0.0.1:8888)
 
 # 3. Test the proxy
-python test_proxy.py --quick
+python src/test_proxy.py --quick
 
 # 4. When finished, stop the proxy
-python stop_proxy_simple.py
+python src/stop_proxy_simple.py
 ```
 
 ### Basic Web Browsing
 
-1. Start the proxy server: `python start_proxy.py`
+1. Start the proxy server: `python src/start_proxy.py`
 2. Configure your browser to use `127.0.0.1:8888` as HTTP/HTTPS proxy
 3. Browse normally - your IP will be masked
-4. Stop when done: `python stop_proxy_simple.py`
+4. Stop when done: `python src/stop_proxy_simple.py`
 
 ### Advanced Start/Stop Options
 
 ```bash
 # Start with custom options
-python start_proxy.py --port 9000 --debug --open-access
+python src/start_proxy.py --port 9000 --debug --open-access
 
 # Stop specific port
-python stop_proxy_simple.py --port 9000
+python src/stop_proxy_simple.py --port 9000
 
 # Force stop if needed
-python stop_proxy_simple.py --force
+python src/stop_proxy_simple.py --force
 
 # Check proxy status
-python stop_proxy.py --status
+python src/stop_proxy.py --status
 
 # List all proxy processes
-python stop_proxy.py --list
+python src/stop_proxy.py --list
 ```
 
 ### Programmatic Usage
@@ -253,8 +326,8 @@ Configure allowed/blocked domains:
 
 ```json
 {
-  "blocked_domains": ["malicious.com", "tracker.net"],
-  "allowed_domains": ["safe-site.com", "trusted.org"]
+  "blocked_domains": [],
+  "allowed_domains": []
 }
 ```
 
@@ -275,6 +348,7 @@ Response:
   "uptime_seconds": 3600,
   "requests_processed": 150,
   "config": {
+    "auth_enabled": false,
     "host": "127.0.0.1",
     "port": 8888,
     "upstream_proxy": false
@@ -381,7 +455,7 @@ Detailed logging setup:
 Enable debug mode for detailed error information:
 
 ```bash
-python proxy_server.py --debug
+python src/proxy_server.py --debug
 ```
 
 Or in configuration:
@@ -454,3 +528,15 @@ pip install --upgrade -r requirements.txt
 ---
 
 **Remember**: Use this tool responsibly and in compliance with all applicable laws and terms of service.
+
+---
+
+## Version History
+
+- Check `CHANGELOG.md` for detailed version history and updates.
+
+---
+
+**Author**: Paul Namalomba<br>
+**Created**: September, 2025<br>
+**Version**: Rolling (v0.1.4 as of Nov 2025)

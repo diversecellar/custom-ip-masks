@@ -26,7 +26,7 @@ import logging # For logging events that happen during execution
 import threading # For running the server in a separate thread, thread means a single sequence of execution within a program
 from datetime import datetime, timedelta
 from urllib.parse import urlparse, urljoin, parse_qs
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple, Any, Union
 
 import requests
 from flask import Flask, request, Response, jsonify, abort
@@ -48,7 +48,7 @@ class ProxyServer:
     5. Chain through multiple proxies
     """
     
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
         Initialize the proxy server with configuration
         
@@ -56,7 +56,8 @@ class ProxyServer:
             config (Dict): Configuration dictionary containing proxy settings
         """
         self.app = Flask(__name__)
-        self.config = config or self._default_config()
+        # Merge provided config over defaults to ensure missing keys (like logging.format) have defaults
+        self.config = self._merge_config(self._default_config(), config or {})
         self.logger = self._setup_logging()
         self.session = requests.Session()
         self.request_count = 0
@@ -111,6 +112,15 @@ class ProxyServer:
                 'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
             }
         }
+
+    def _merge_config(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+        """Deep-merge two config dictionaries (override wins)."""
+        for key, val in override.items():
+            if isinstance(val, dict) and isinstance(base.get(key), dict):
+                base[key] = self._merge_config(base[key], val)
+            else:
+                base[key] = val
+        return base
     
     def _setup_logging(self) -> logging.Logger:
         """
@@ -120,21 +130,23 @@ class ProxyServer:
             logging.Logger: Configured logger instance
         """
         logger = logging.getLogger('ProxyServer')
-        logger.setLevel(getattr(logging, self.config['logging']['level']))
+        log_conf = self.config.get('logging', {})
+        level_name = str(log_conf.get('level', 'INFO')).upper()
+        fmt = log_conf.get('format', '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        logger.setLevel(getattr(logging, level_name, logging.INFO))
         
         # File handler
-        if self.config['logging']['file']:
-            file_handler = logging.FileHandler(self.config['logging']['file'])
-            file_handler.setFormatter(
-                logging.Formatter(self.config['logging']['format'])
-            )
+        log_file = log_conf.get('file')
+        if log_file:
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setFormatter(logging.Formatter(fmt))
             logger.addHandler(file_handler)
         
         # Console handler
+        # StreamHandler logs to stderr by default, and inherits the logger's level
+        # The format field must reference valid LogRecord attributes otherwise it raises an error
         console_handler = logging.StreamHandler()
-        console_handler.setFormatter(
-            logging.Formatter(self.config['logging']['format'])
-        )
+        console_handler.setFormatter(logging.Formatter(fmt))
         logger.addHandler(console_handler)
         
         return logger
@@ -155,15 +167,15 @@ class ProxyServer:
         # Configure SSL verification
         self.session.verify = False
         
-        # Set timeout
-        self.session.timeout = self.config['timeout']
+        # Store timeout for requests (requests.Session has no timeout attribute)
+        self._timeout = self.config['timeout']
     
     def _register_routes(self) -> None:
         """Register Flask routes for the proxy server"""
         
         @self.app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'])
         @self.app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'])
-        def proxy_request(path: str) -> Response:
+        def proxy_request(path: str) -> Union[Response, Tuple[Response, int]]:
             """
             Main proxy handler for all HTTP methods
             
@@ -207,7 +219,7 @@ class ProxyServer:
             """
             return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
     
-    def _handle_request(self, path: str) -> Response:
+    def _handle_request(self, path: str) -> Union[Response, Tuple[Response, int]]:
         """
         Handle incoming proxy request
         
@@ -336,7 +348,8 @@ class ProxyServer:
             data=data,
             params=params,
             allow_redirects=False,  # Handle redirects manually
-            stream=True
+            stream=True,
+            timeout=self._timeout
         )
     
     def _create_response(self, upstream_response: requests.Response) -> Response:

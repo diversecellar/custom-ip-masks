@@ -49,22 +49,22 @@ def main():
             'requests_per_minute': 120
         }
     }
-    
-    print("🚀 Starting Custom IP Masks Proxy Server...")
-    print(f"📍 Host: {config['host']}")
-    print(f"🔌 Port: {config['port']}")
-    print(f"🐛 Debug: {config['debug']}")
+
+    print(f"\033[96mStarting Custom IP Masks Proxy Server...\033[0m")
+    print(f"\033[94mHost: {config['host']}\033[0m")
+    print(f"\033[94mPort: {config['port']}\033[0m")
+    print(f"\033[94mDebug: {config['debug']}\033[0m")
     print()
-    print("📋 Configuration Instructions:")
-    print("   Configure your browser proxy settings:")
+    print("\033[96mConfiguration Instructions:\033[0m")
+    print("\033[94mConfigure your browser proxy settings:\033[0m")
     print(f"   • HTTP Proxy:  {config['host']}:{config['port']}")
     print(f"   • HTTPS Proxy: {config['host']}:{config['port']}")
     print()
-    print("🧪 Test your setup:")
+    print("\033[96mTest your setup:\033[0m")
     print("   Visit: http://httpbin.org/ip")
     print("   Your IP should be different when using the proxy")
     print()
-    print("🛑 Press Ctrl+C to stop the server")
+    print("🛑 \033[91mPress Ctrl+C to stop the server\033[0m")
     print("=" * 60)
     
     try:

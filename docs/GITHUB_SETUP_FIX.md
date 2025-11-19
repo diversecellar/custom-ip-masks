@@ -58,11 +58,6 @@ https://github.com/diversecellar/custom-ip-masks
 
 After creating the GitHub repository:
 
-```powershell
-cd "C:\Users\kabwe\OneDrive - University of Cape Town\2025\Work\custom-ip-masks"
-git push -u origin main
-```
-
 Or re-run your management script:
 ```powershell
 Manage-GitHub -appName "custom-ip-masks"

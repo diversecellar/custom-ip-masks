@@ -10,16 +10,16 @@ pip install -r requirements-minimal.txt
 
 ### Step 2: Start the Proxy
 ```bash
-python start_proxy.py
+python src/start_proxy.py
 ```
 
 ### Step 3: Stop the Proxy (When Done)
 ```bash
 # Option 1: Simple stop (no extra dependencies)
-python stop_proxy_simple.py
+python src/stop_proxy_simple.py
 
 # Option 2: Advanced stop (requires psutil)
-python stop_proxy.py
+python src/stop_proxy.py
 
 # Option 3: Windows batch file
 stop_proxy.bat
@@ -52,19 +52,19 @@ Set your browser proxy settings to:
 
 ```bash
 # Basic usage
-python start_proxy.py
+python src/start_proxy.py
 
 # Custom port
-python start_proxy.py --port 9000
+python src/start_proxy.py --port 9000
 
 # Allow external connections
-python start_proxy.py --open-access
+python src/start_proxy.py --open-access
 
 # Debug mode
-python start_proxy.py --debug
+python src/start_proxy.py --debug
 
 # Show help
-python start_proxy.py --help
+python src/start_proxy.py --help
 ```
 
 ## 📋 Browser Configuration
@@ -97,7 +97,7 @@ print(response.json())
 ### Connection Issues
 - Make sure the proxy server is running
 - Check if port 8888 is available
-- Try a different port: `python start_proxy.py --port 9000`
+- Try a different port: `python src/start_proxy.py --port 9000`
 
 ### Permission Issues
 - On Windows: Run terminal as Administrator
@@ -124,4 +124,4 @@ print(response.json())
 
 ---
 
-**Need help?** Check the full documentation in `README.md` or run the test suite with `python test_proxy.py`
+**Need help?** Check the full documentation in `README.md` or run the test suite with `python src/test_proxy.py`
