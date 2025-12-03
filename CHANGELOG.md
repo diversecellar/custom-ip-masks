@@ -5,6 +5,11 @@ All notable changes to the Task Manager App will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] - 2025-12-04
+
+### Added
+- Changed README.md to reflect latest version and update author info.
+
 ## [0.1.4] - 2025-11-18
 
 ### Added
