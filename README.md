@@ -1,4 +1,4 @@
-# Custom IP Masks - Flexible Proxy Server for Equitable Internet Access
+# IP Masquerade - Flexible Proxy Server for Equitable Internet Access
 
 **Last updated**: December 04, 2025<br>
 **Author**: [Paul Namalomba](https://github.com/paulnamalomba)<br>
