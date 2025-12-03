@@ -11,7 +11,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green.svg)](https://flask.palletsprojects.com/)
 [![Redis](https://img.shields.io/badge/Redis-6.0%2B-orange.svg)](https://redis.io/)
-[![License](https://img.shields.io/badge/License-Educational-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A powerful, flexible, customised HTTP/HTTPS proxy server built with **Python** and **Flask** that allows you to mask your IP address and browse the web anonymously. This proxy server provides advanced features for privacy, security, and traffic management. 
 
